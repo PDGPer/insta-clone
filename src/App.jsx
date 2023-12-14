@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import AuthPage from "./pages/AuthPage/AuthPage";
 import HomePage from "./pages/HomePage/HomePage";
+
 function App() {
   return (
     <>
@@ -7,6 +9,10 @@ function App() {
         <Route
           path="/"
           element={<HomePage />}
+        />
+        <Route
+          path="/auth"
+          element={<AuthPage />}
         />
       </Routes>
     </>
