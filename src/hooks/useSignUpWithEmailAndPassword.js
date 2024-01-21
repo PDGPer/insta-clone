@@ -1,6 +1,7 @@
 import { doc, setDoc } from "firebase/firestore";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../firebase/firebase";
+import useAuthStore from "../store/authStore";
 import useShowToast from "./useShowToast";
 
 export default function useSignUpWithEmailAndPassword() {
@@ -8,6 +9,9 @@ export default function useSignUpWithEmailAndPassword() {
   const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
   // Custom hook with Chakra UI parts
   const showToast = useShowToast();
+  // Zustand store commands
+  const loginUser = useAuthStore((state) => state.login);
+  const logoutUser = useAuthStore((state) => state.logout);
 
   const signup = async (inputs) => {
     // Signup attempt starts; first checks if all fields are filled out
@@ -42,8 +46,10 @@ export default function useSignUpWithEmailAndPassword() {
         };
         // ...and pushes it to the Firestore with Firebase hooks...
         await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
-        // ...while also saving it in the local storage
+        // ...while also saving it in the local storage...
         localStorage.setItem("user-info", JSON.stringify(userDoc));
+        // ...and adding the user object to the Zustand store.
+        loginUser(userDoc);
       }
       // If it fails, shows an error on the toast
     } catch (error) {
