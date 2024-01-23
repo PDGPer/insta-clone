@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
@@ -21,9 +21,20 @@ export default function useSignUpWithEmailAndPassword() {
       return;
     }
 
-    // Otherwise...
+    // Additional check to prevent duplicate usernames
+    const usersRef = collection(firestore, "users");
+    const q = query(usersRef, where("username", "==", inputs.username));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      showToast("Error", "Username already exists", "error");
+      return;
+    }
+
+    // If checks pass...
     try {
       // Tries to create a new user with the Firebase hooks
+      // Also checks if email and password aren't duplicates
+      // of those that already exist in the database
       const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
       // If it fails, shows an error on the toast
       if (!newUser && error) {
