@@ -6,12 +6,12 @@ import useShowToast from "./useShowToast";
 
 export default function useSignUpWithEmailAndPassword() {
   // Firebase hooks
-  const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, , loading, error] = useCreateUserWithEmailAndPassword(auth);
   // Custom hook with Chakra UI parts
   const showToast = useShowToast();
   // Zustand store commands
   const loginUser = useAuthStore((state) => state.login);
-  const logoutUser = useAuthStore((state) => state.logout);
+  // const logoutUser = useAuthStore((state) => state.logout);
 
   const signup = async (inputs) => {
     // Signup attempt starts; first checks if all fields are filled out

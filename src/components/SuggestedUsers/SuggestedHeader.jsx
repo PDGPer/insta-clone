@@ -8,6 +8,10 @@ export default function SuggestedHeader() {
   const { handleLogout, isLoggingOut } = useLogout();
   const authUser = useAuthStore((state) => state.user);
 
+  // Used to prevent Google sign up from triggering an error
+  // when the authUser is awaiting data and still null
+  if (!authUser) return null;
+
   return (
     <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
       <Flex alignItems={"center"} gap={2}>

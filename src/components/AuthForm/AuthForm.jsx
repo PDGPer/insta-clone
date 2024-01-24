@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import GoogleAuth from "./GoogleAuth";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -26,7 +26,7 @@ export default function AuthForm() {
             <Box flex={2} h={"1px"} bg={"gray.400"} />
           </Flex>
 
-          <GoogleAuth />
+          <GoogleAuth prefix={isLogin ? "Log in" : "Sign up"} />
         </VStack>
       </Box>
 
