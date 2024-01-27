@@ -28,6 +28,8 @@ export default function useGetUserProfileByUserName(username) {
         setUserProfile(userDoc);
       } catch (error) {
         showToast("Error", error.message, "error");
+      } finally {
+        setIsLoading(false);
       }
     };
     getUserProfile();
