@@ -17,12 +17,12 @@ const useFollowUser = (userId) => {
     setIsUpdating(true);
     try {
       const currentUserRef = doc(firestore, "users", authUser.uid);
-      const userToFollowOrUnfollorRef = doc(firestore, "users", userId);
+      const userToFollowOrUnfollowRef = doc(firestore, "users", userId);
       await updateDoc(currentUserRef, {
         following: isFollowing ? arrayRemove(userId) : arrayUnion(userId),
       });
 
-      await updateDoc(userToFollowOrUnfollorRef, {
+      await updateDoc(userToFollowOrUnfollowRef, {
         followers: isFollowing ? arrayRemove(authUser.uid) : arrayUnion(authUser.uid),
       });
 
