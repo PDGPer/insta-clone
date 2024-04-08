@@ -22,7 +22,7 @@ const styles = {
 
 // Part of Chakra UI default setup
 const config = {
-  initialColorMode: "dark",
+  initialColorMode: "light",
   useSystemColorMode: false,
 };
 
