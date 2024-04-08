@@ -1,6 +1,6 @@
 import {
   Avatar,
-  Box,
+  Button,
   Divider,
   Flex,
   GridItem,
@@ -14,14 +14,19 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
+import React from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import useAuthStore from "../../store/authStore";
+import useUserProfileStore from "../../store/userProfileStore";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 
-export default function ProfilePost({ img }) {
+export default function ProfilePost({ post }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const userProfile = useUserProfileStore((state) => state.userProfile);
+  const authUser = useAuthStore((state) => state.user);
 
   return (
     <>
@@ -53,18 +58,18 @@ export default function ProfilePost({ img }) {
             <Flex>
               <AiFillHeart size={20} />
               <Text fontWeight={"bold"} ml={2}>
-                7
+                {post.likes.length}
               </Text>
             </Flex>
             <Flex>
               <FaComment size={20} />
               <Text fontWeight={"bold"} ml={2}>
-                7
+                {post.comments.length}
               </Text>
             </Flex>
           </Flex>
         </Flex>
-        <Image src={img} alt="profile post" w={"100%"} h={"100%"} objectFit={"cover"} />
+        <Image src={post.image} alt="profile post" w={"100%"} h={"100%"} objectFit={"cover"} />
       </GridItem>
       {/* -------------------- MODAL ------------------- */}
       <Modal isOpen={isOpen} onClose={onClose} isCentered size={{ base: "3x1", md: "5xl" }}>
@@ -72,25 +77,41 @@ export default function ProfilePost({ img }) {
         <ModalContent>
           <ModalCloseButton />
           <ModalBody bg={"black"} pb={5}>
-            <Flex gap={4} w={{ base: "90%", sm: "70%", md: "full" }} mx={"auto"}>
+            <Flex gap={4} w={{ base: "90%", sm: "70%", md: "full" }} mx={"auto"} maxH={"90vh"} minH={"50vh"}>
               {/* Image */}
-              <Box borderRadius={4} overflow={"hidden"} border={"1px solid"} borderColor={"whiteAlpha.300"} flex={1.5}>
-                <Image src={img} alt="profile post" />
-              </Box>
+              <Flex
+                borderRadius={4}
+                overflow={"hidden"}
+                border={"1px solid"}
+                borderColor={"whiteAlpha.300"}
+                flex={1.5}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Image src={post.image} alt="profile post" />
+              </Flex>
               <Flex flex={1} flexDirection={"column"} px={10} display={{ base: "none", md: "flex" }}>
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
                   <Flex alignItems={"center"} gap={4}>
                     {/* User profile pic */}
-                    <Avatar src="/profilepic.png" size={"sm"} name="As a Programmer" />
+                    <Avatar src={userProfile.profilePicURL} size={"sm"} name="As a Programmer" />
                     {/* Username */}
                     <Text fontWeight={"bold"} fontSize={12}>
-                      asaprogrammer_
+                      {userProfile.username}
                     </Text>
                   </Flex>
                   {/* Delete button */}
-                  <Box bg={{ bg: "whiteAlpha.300", color: "red.600" }} borderRadius={4} p={1}>
-                    <MdDelete size={20} cursor={"pointer"} />
-                  </Box>
+                  {authUser?.uid === userProfile.uid && (
+                    <Button
+                      size={"sm"}
+                      bg={"transparent"}
+                      _hover={{ bg: "whiteAlpha.300", color: "red.600" }}
+                      borderRadius={4}
+                      p={1}
+                    >
+                      <MdDelete size={20} cursor={"pointer"} />
+                    </Button>
+                  )}
                 </Flex>
                 <Divider my={4} bg={"gray.500"} />
                 <VStack w={"full"} alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
@@ -105,48 +126,6 @@ export default function ProfilePost({ img }) {
                     username="abrahmov"
                     profilePic="https://bit.ly/dan-abramov"
                     text={"Nice pic"}
-                  />
-                  <Comment
-                    createdAt="3h ago"
-                    username="kentdodds"
-                    profilePic="https://bit.ly/kent-c-dodds"
-                    text={"Good clone dude!"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="asaprogrammer_"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from unsplash"}
-                  />
-                  <Comment
-                    createdAt="12h ago"
-                    username="abrahmov"
-                    profilePic="https://bit.ly/dan-abramov"
-                    text={"Nice pic"}
-                  />
-                  <Comment
-                    createdAt="3h ago"
-                    username="kentdodds"
-                    profilePic="https://bit.ly/kent-c-dodds"
-                    text={"Good clone dude!"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="asaprogrammer_"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from unsplash"}
-                  />
-                  <Comment
-                    createdAt="12h ago"
-                    username="abrahmov"
-                    profilePic="https://bit.ly/dan-abramov"
-                    text={"Nice pic"}
-                  />
-                  <Comment
-                    createdAt="3h ago"
-                    username="kentdodds"
-                    profilePic="https://bit.ly/kent-c-dodds"
-                    text={"Good clone dude!"}
                   />
                 </VStack>
                 <Divider my={4} bg={"gray.800"} />
