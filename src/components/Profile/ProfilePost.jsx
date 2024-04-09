@@ -25,6 +25,7 @@ import useShowToast from "../../hooks/useShowToast";
 import useAuthStore from "../../store/authStore";
 import usePostStore from "../../store/postStore";
 import useUserProfileStore from "../../store/userProfileStore";
+import Caption from "../Comment/Caption";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 
@@ -147,6 +148,9 @@ export default function ProfilePost({ post }) {
                 </Flex>
                 <Divider my={4} bg={"gray.500"} />
                 <VStack w={"full"} alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
+                  {/* CAPTION */}
+                  {post.caption && <Caption post={post} />}
+                  {/* COMMENTS */}
                   {post.comments.map((comment) => (
                     <Comment key={comment.id} comment={comment} />
                   ))}
