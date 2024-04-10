@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { firestore } from "../firebase/firebase";
 import useShowToast from "./useShowToast";
 
-export default function useGetProfileById(userId) {
+const useGetUserProfileById = (userId) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
+
   const showToast = useShowToast();
 
   useEffect(() => {
@@ -25,5 +26,8 @@ export default function useGetProfileById(userId) {
     };
     getUserProfile();
   }, [showToast, setUserProfile, userId]);
+
   return { isLoading, userProfile, setUserProfile };
-}
+};
+
+export default useGetUserProfileById;
