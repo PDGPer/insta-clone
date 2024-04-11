@@ -2,6 +2,8 @@
 
 Based on a [freeCodeCamp tutorial](https://www.youtube.com/watch?v=RMScMwY2B6Q) by [@asaprogrammer_](https://www.youtube.com/@asaprogrammer_/videos)
 
+[Click here to see it live](https://insta-clone-pdgper.vercel.app/)
+
 ## Goals
 
 - To see how someone more experienced would structure this kind of project.
